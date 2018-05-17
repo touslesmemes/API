@@ -1,0 +1,6 @@
+- id: "channel.created.success"
+  translation: "Channel was successfully created."
+- id: "channel.updated.success"
+  translation: "Channel was successfully updated."
+- id: "channel.destroyed.success"
+  translation: "Channel was successfully destroyed."
