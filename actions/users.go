@@ -112,11 +112,15 @@ func (v UsersResource) Create(c buffalo.Context) error {
 		return errors.WithStack(errors.New("no transaction found"))
 	}
 
+	user.Password = encryptPassword(user.Password)
+
 	// Validate the data from the html form
 	verrs, err := tx.ValidateAndCreate(user)
 	if err != nil {
 		return errors.WithStack(err)
 	}
+
+	user.Password = ""
 
 	if verrs.HasAny() {
 		// Make the errors available inside the html template
@@ -174,10 +178,16 @@ func (v UsersResource) Update(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
+	if user.Password != "" {
+		user.Password = encryptPassword(user.Password)
+	}
+
 	verrs, err := tx.ValidateAndUpdate(user)
 	if err != nil {
 		return errors.WithStack(err)
 	}
+
+	user.Password = ""
 
 	if verrs.HasAny() {
 		// Make the errors available inside the html template

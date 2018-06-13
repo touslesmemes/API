@@ -61,10 +61,21 @@ func App() *buffalo.App {
 		// restrict access to authenticated users
 		users.Use(RestrictedHandlerMiddleware)
 
-		users.Resource("", &UsersResource{})
-		channels.Resource("", &ChannelsResource{})
-		comments.Resource("", &CommentsResource{})
-		posts.Resource("", &PostsResource{})
+		ur := &UsersResource{}
+		cr := &ChannelsResource{}
+		cr7 := &CommentsResource{} //cr7 stand for cristiano ronaldo
+		pr := &PostsResource{}
+
+		users.Middleware.Skip(RestrictedHandlerMiddleware, ur.New, ur.Create)
+
+		channels.Use(RestrictedHandlerMiddleware)
+		comments.Use(RestrictedHandlerMiddleware)
+		posts.Use(RestrictedHandlerMiddleware)
+
+		users.Resource("", ur)
+		channels.Resource("", cr)
+		comments.Resource("", cr7)
+		posts.Resource("", pr)
 
 		// restrict access to authenticated users
 
