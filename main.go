@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"git.aprentout.com/touslesmemes/api2/actions"
+	"github.com/touslesmemes/api/actions"
 )
 
 func main() {
