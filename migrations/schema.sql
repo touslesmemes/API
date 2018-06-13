@@ -17,6 +17,8 @@ CREATE TABLE `channels` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `channels` (`ID`, `Name`, `Created_At`, `Updated_At`) VALUES
+('b83caa48-6f0f-11e8-9bb4-b46d831f881c',	'Doggo',	'2018-06-13 13:51:48',	'2018-06-13 11:41:35');
 
 DROP TABLE IF EXISTS `channels_posts`;
 CREATE TABLE `channels_posts` (
@@ -28,6 +30,10 @@ CREATE TABLE `channels_posts` (
   CONSTRAINT `channels_posts_ibfk_2` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `channels_posts` (`post_id`, `channel_id`) VALUES
+('06be6717-6f10-11e8-9bb4-b46d831f881c',	'b83caa48-6f0f-11e8-9bb4-b46d831f881c'),
+('20151ada-6f10-11e8-9bb4-b46d831f881c',	'b83caa48-6f0f-11e8-9bb4-b46d831f881c'),
+('a1a2fc8e-6f0f-11e8-9bb4-b46d831f881c',	'b83caa48-6f0f-11e8-9bb4-b46d831f881c');
 
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
@@ -43,6 +49,8 @@ CREATE TABLE `comments` (
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `comments` (`ID`, `Likes`, `Dislikes`, `Text`, `Created_At`, `Updated_At`, `post_id`) VALUES
+('e7112efa-6f0f-11e8-9bb4-b46d831f881c',	1000,	0,	'Bork',	'2018-06-13 13:51:38',	'2018-06-13 11:41:35',	'a1a2fc8e-6f0f-11e8-9bb4-b46d831f881c');
 
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
@@ -60,6 +68,10 @@ CREATE TABLE `posts` (
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `posts` (`ID`, `Url`, `Likes`, `Dislikes`, `Status`, `Public`, `Created_At`, `Updated_At`, `user_id`) VALUES
+('06be6717-6f10-11e8-9bb4-b46d831f881c',	'https://imgur.com/a/SihRpvO',	500,	0,	0,	1,	'2018-06-13 13:51:24',	'2018-06-13 11:41:35',	'bf2bdba2-16fb-4a4f-b17b-c98752a6e52e'),
+('20151ada-6f10-11e8-9bb4-b46d831f881c',	'https://imgur.com/a/FD9TMQT',	5000,	0,	0,	1,	'2018-06-13 13:51:28',	'2018-06-13 11:41:35',	'bf2bdba2-16fb-4a4f-b17b-c98752a6e52e'),
+('a1a2fc8e-6f0f-11e8-9bb4-b46d831f881c',	'https://imgur.com/a/S5h6wsc',	1000,	0,	0,	1,	'2018-06-13 13:51:32',	'2018-06-13 11:41:35',	'bf2bdba2-16fb-4a4f-b17b-c98752a6e52e');
 
 DROP TABLE IF EXISTS `schema_migration`;
 CREATE TABLE `schema_migration` (
@@ -79,5 +91,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `users` (`ID`, `Pseudo`, `Email`, `Password`, `Created_At`, `Updated_At`) VALUES
+('bf2bdba2-16fb-4a4f-b17b-c98752a6e52e',	'Adriendien',	'adrien.chevalier2@gmail.com',	'$2a$08$EYWqufyNNerX2tC.5B.Ppugu6IpOeLVUVeHqQn5iN.xF/e1uJU6BW',	'2018-06-13 11:41:35',	'2018-06-13 11:41:35');
 
--- 2018-06-13 13:16:25
+-- 2018-06-13 13:57:58
