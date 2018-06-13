@@ -1,80 +1,83 @@
--- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
---
--- Host: localhost    Database: api_development
--- ------------------------------------------------------
--- Server version	5.7.21-0ubuntu0.17.10.1
+-- Adminer 4.6.2 MySQL dump
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
---
--- Table structure for table 'schema_migration'
---
+CREATE DATABASE `api_development` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `api_development`;
 
-DROP TABLE IF EXISTS 'schema_migration';
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE 'schema_migration' (
-  'version' varchar(255) NOT NULL,
-  UNIQUE KEY 'version_idx' ('version')
+DROP TABLE IF EXISTS `channels`;
+CREATE TABLE `channels` (
+  `ID` varchar(36) NOT NULL,
+  `Name` varchar(32) NOT NULL,
+  `Created_At` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `Updated_At` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-12 15:40:15
+DROP TABLE IF EXISTS `channels_posts`;
+CREATE TABLE `channels_posts` (
+  `post_id` varchar(36) NOT NULL,
+  `channel_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`post_id`,`channel_id`),
+  KEY `channel_id` (`channel_id`),
+  CONSTRAINT `channels_posts_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `channels_posts_ibfk_2` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE users (
-  id varchar(36) NOT NULL,
-  pseudo varchar(36) NOT NULL,
-	email varchar(36) NOT NULL,
-	password varchar(60) NOT NULL,
-	created_at timestamp CURRENT_TIMESTAMP,
-	updated_at timestamp CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE channels (
-  id varchar(36) NOT NULL,
-  name varchar(36)  NOT NULL,
-	created_at timestamp CURRENT_TIMESTAMP,
-	updated_at timestamp CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `ID` varchar(36) NOT NULL,
+  `Likes` int(10) unsigned NOT NULL,
+  `Dislikes` int(10) unsigned NOT NULL,
+  `Text` varchar(255) NOT NULL,
+  `Created_At` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `Updated_At` timestamp NULL DEFAULT NULL,
+  `post_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE comments (
-  id varchar(36) NOT NULL,
-	Like int(11),
-	Dislike int(11),
-	Text varchar(36)  NOT NULL,
-	created_at timestamp CURRENT_TIMESTAMP,
-	updated_at timestamp CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE posts (
-  id varchar(36) NOT NULL,
-	Url varchar(36) NOT NULL,
-	Like int,
-	Dislike int(11),
-	Status int(11),
-	Public boolean,
-	created_at timestamp CURRENT_TIMESTAMP,
-	updated_at timestamp CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE `posts` (
+  `ID` varchar(36) NOT NULL,
+  `Url` varchar(255) NOT NULL,
+  `Likes` int(10) unsigned NOT NULL,
+  `Dislikes` int(10) unsigned NOT NULL,
+  `Status` int(11) NOT NULL,
+  `Public` tinyint(4) NOT NULL,
+  `Created_At` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `Updated_At` timestamp NULL DEFAULT NULL,
+  `user_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `schema_migration`;
+CREATE TABLE `schema_migration` (
+  `version` varchar(255) NOT NULL,
+  UNIQUE KEY `version_idx` (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `ID` varchar(36) NOT NULL,
+  `Pseudo` varchar(32) NOT NULL,
+  `Email` varchar(32) NOT NULL,
+  `Password` varchar(60) NOT NULL,
+  `Created_At` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `Updated_At` timestamp NULL DEFAULT NULL,
+  PRIM2018-06-13 13:11:17
+) ENGI2018-06-13 13:11:17
+
+
+-- END2018-06-13 13:11:17

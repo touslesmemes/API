@@ -11,11 +11,13 @@ import (
 
 type Comment struct {
 	ID        uuid.UUID `json:"id" db:"id"`
-	Like      int       `json:"like" db:"like"`
-	Dislike   int       `json:"dislike" db:"dislike"`
+	Likes     int       `json:"likes" db:"likes"`
+	Dislikes  int       `json:"dislikes" db:"dislikes"`
 	Text      string    `json:"text" db:"text"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	Post      Post      `belongs_to:"post"`
+	PostID    uuid.UUID `db:"post_id"`
 }
 
 // String is not required by pop and may be deleted

@@ -63,6 +63,10 @@ func (v UsersResource) List(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
+	for i := 0; i < len(*(users)); i++ {
+		(*users)[i].Password = ""
+	}
+
 	// Add the paginator to the context so it can be used in the template.
 	c.Set("pagination", q.Paginator)
 
@@ -85,6 +89,8 @@ func (v UsersResource) Show(c buffalo.Context) error {
 	if err := tx.Find(user, c.Param("user_id")); err != nil {
 		return c.Error(404, err)
 	}
+
+	user.Password = ""
 
 	return c.Render(200, r.JSON(user))
 }
@@ -153,6 +159,8 @@ func (v UsersResource) Edit(c buffalo.Context) error {
 	if err := tx.Find(user, c.Param("user_id")); err != nil {
 		return c.Error(404, err)
 	}
+
+	user.Password = ""
 
 	return c.Render(200, r.JSON(user))
 }
@@ -225,6 +233,8 @@ func (v UsersResource) Destroy(c buffalo.Context) error {
 	if err := tx.Destroy(user); err != nil {
 		return errors.WithStack(err)
 	}
+
+	user.Password = ""
 
 	// If there are no errors set a flash message
 	c.Flash().Add("success", "User was destroyed successfully")

@@ -14,6 +14,7 @@ type Channel struct {
 	Name      string    `json:"name" db:"name"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	Posts     Posts     `many_to_many:"channels_posts`
 }
 
 // String is not required by pop and may be deleted

@@ -12,12 +12,16 @@ import (
 type Post struct {
 	ID        uuid.UUID `json:"id" db:"id"`
 	Url       string    `json:"url" db:"url"`
-	Like      int       `json:"like" db:"like"`
-	Dislike   int       `json:"dislike" db:"dislike"`
+	Likes     int       `json:"likes" db:"likes"`
+	Dislikes  int       `json:"dislikes" db:"dislikes"`
 	Status    int       `json:"status" db:"status"`
 	Public    bool      `json:"public" db:"public"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	User      User      `belongs_to:"user"`
+	UserID    uuid.UUID `db:"user_id"`
+	Comments  Comments  `has_many:"comments"`
+	Channel   Channels  `many_to_many:"channels_posts"`
 }
 
 // String is not required by pop and may be deleted

@@ -12,4 +12,5 @@ api
 .vscode/
 .grifter/
 .env
+database.yml
 # maximeturquetil
