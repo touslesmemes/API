@@ -16,7 +16,7 @@ type Comment struct {
 	Text      string    `json:"text" db:"text"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Post      Post      `belongs_to:"post"`
+	Post      Post      `json:",,omitempty" belongs_to:"post"`
 	PostID    uuid.UUID `db:"post_id"`
 }
 

@@ -16,7 +16,7 @@ type User struct {
 	Password  string    `json:",,omitempty" db:"password"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Posts     Posts     `has_many:"posts"`
+	Posts     Posts     `json:",,omitempty" has_many:"posts"`
 }
 
 // String is not required by pop and may be deleted

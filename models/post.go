@@ -20,8 +20,8 @@ type Post struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 	User      User      `belongs_to:"user"`
 	UserID    uuid.UUID `db:"user_id"`
-	Comments  Comments  `has_many:"comments"`
-	Channel   Channels  `many_to_many:"channels_posts"`
+	Comments  Comments  `json:",,omitempty" has_many:"comments"`
+	Channel   Channels  `json:",,omitempty" many_to_many:"channels_posts"`
 }
 
 // String is not required by pop and may be deleted
