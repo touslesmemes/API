@@ -1,8 +1,8 @@
 package grifts
 
 import (
-	"git.aprentout.com/touslesmemes/api2/actions"
 	"github.com/gobuffalo/buffalo"
+	"github.com/touslesmemes/api/actions"
 )
 
 func init() {

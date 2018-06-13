@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"git.aprentout.com/touslesmemes/api/models"
 	"github.com/badoux/checkmail"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gobuffalo/buffalo"
@@ -15,6 +14,7 @@ import (
 	"github.com/gobuffalo/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	"github.com/touslesmemes/api/models"
 	"golang.org/x/crypto/bcrypt"
 )
 

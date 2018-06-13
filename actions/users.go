@@ -3,10 +3,10 @@ package actions
 import (
 	"strings"
 
-	"git.aprentout.com/touslesmemes/api/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
 	"github.com/pkg/errors"
+	"github.com/touslesmemes/api/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
